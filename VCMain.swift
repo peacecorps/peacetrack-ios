@@ -4,38 +4,62 @@
 //  Created by Shelagh McGowan on 7/4/14.
 //  Copyright (c) 2014 Shelagh McGowan. All rights reserved.
 //  Citing https://github.com/GabrielMassana/Picker-iOS8 :Picker menu views code
+
+
 import Foundation
 import UIKit
 import CoreData
+
+
+
+
 class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NSURLConnectionDelegate {
    
     //configure text boxes
-        @IBOutlet var txtFullName: UITextField!
-        @IBOutlet var txtVolunteerID: UITextField!
-   
-    //configure picker views
+    @IBOutlet var txtFullName: UITextField!
+    @IBOutlet var txtVolunteerID: UITextField!
+  
+    //instantiate 2 picker views
     var countryPicker = UIPickerView()
     var sectorPicker = UIPickerView()
     
+    //instantiate 2 NSArrays
     var countryPickerData  = NSArray()
     var sectorPickerData = NSArray()
     
+    //instantiate 2 NSMutabaleArrays
     var countriesArray: NSMutableArray =  NSMutableArray()
     var sectorsArray: NSMutableArray = NSMutableArray()
     
-    //configure lables related to picker views
-    @IBOutlet var countryLabel : UILabel = nil
-    @IBOutlet var sectorLabel : UILabel = nil
+    //create 2 labels to show picker view selection
+    @IBOutlet var countryLabel : UILabel! = nil
+    @IBOutlet var sectorLabel : UILabel! = nil
     
-    //get the window ready
+    //declare the initial view and window
     var actionView: UIView = UIView()
     var window: UIWindow? = nil
-
-    //gets everything set up in the view
+    
+ 
+    
+   
+    
+    
+    
+    
+    
+    
+    
+    
+    /***What happens when the root view loads.
+    
+    ***/
     override func viewDidLoad() {
         super.viewDidLoad()
+       
         var delegate = UIApplication.sharedApplication()
+        //We have an array of views here
         var myWindow: UIWindow? = delegate.keyWindow
+       
         var myWindow2: NSArray = delegate.windows
        
         if let myWindow: UIWindow = UIApplication.sharedApplication().keyWindow
@@ -45,36 +69,67 @@ class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NS
         else         {
             window = myWindow2[0] as? UIWindow
         }
-        
+       
+        //set the background colors of the picker views
         countryPicker.backgroundColor = UIColor.whiteColor()
         sectorPicker.backgroundColor = UIColor.whiteColor()
         
+        //set up the frame of one action view (issue -why is there only one action view?)
         actionView.frame = CGRectMake(0, UIScreen.mainScreen().bounds.size.height.0, UIScreen.mainScreen().bounds.size.width, 260.0)
-        
+       
+        //two variables to hold the plists
         var filePath =  NSBundle.mainBundle().pathForResource("Property List", ofType: "plist")
         var filePath2 = NSBundle.mainBundle().pathForResource("sectors", ofType: "plist")
+        
+        //Add the contents of filePath file to the NSMutableArray "countriesArray".
         countriesArray = NSMutableArray(contentsOfFile: filePath)
+        
         countriesArray.insertObject("", atIndex: 0)
         countriesArray.insertObject("No country", atIndex: 0)
+        //deleted pickel object at index one (cus wtf shelagh? lol)
+        //Add the contents of filePath2 file to the NSMutableArray "sectorsArray"
         sectorsArray =  NSMutableArray(contentsOfFile: filePath2)
         sectorsArray.insertObject("", atIndex: 0)
         sectorsArray.insertObject("No sector", atIndex: 0)
     
     }
     
-  //API code
+  
+    
+    
+    
+    
+    
+    
+    //API code
     /*  override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         startConnection()
     }*/
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
          // Dispose of any resources that can be recreated.
     }
 
+   
+    
+    
+    
+    
+    
+    
     //creates a new user object and saves it to the database. also prints out the object for you to see.
-        @IBAction func btnLoginAndSave(){
+    @IBAction func btnLoginAndSave(){
         
                 //create a new variable appDel to store app delegate
                 //cast delegate of type UIApplication to our delegate type AppDelegate
@@ -87,9 +142,8 @@ class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NS
             
                 newUser.setValue(""+txtFullName.text, forKey: "username")
                 newUser.setValue(""+txtVolunteerID.text, forKey: "password")
-                newUser.setValue(""+countryLabel.text, forKey:"post")  
+                newUser.setValue(""+countryLabel.text, forKey:"post")
                 newUser.setValue(""+sectorLabel.text, forKey:"sector")
-            
                 //save the object
                 context.save(nil)
                 //placeholder to show an error message
@@ -101,8 +155,16 @@ class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NS
         
             }
     
+    
+    
+    
+    
+    
+    
+    
     //just a test to see loading of all user objects in database in the console
-        @IBAction func btnLoadTest(){
+    
+    @IBAction func btnLoadTest(){
         
                 //same as btnSave() function
                 var appDel:AppDelegate = (UIApplication.sharedApplication().delegate as AppDelegate)
@@ -126,6 +188,13 @@ class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NS
                 //println("load button pressed \(txtVolunteerID.text)")
         
             }
+    
+    
+    
+    
+    
+    
+    
     
     
     @IBAction func openCountryPicker(sender : UIButton)
@@ -165,7 +234,7 @@ class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NS
         actionView.addSubview(pickerDateToolbar)
         actionView.addSubview(countryPicker)
         
-        if window {
+        if (window != nil) {
             window!.addSubview(actionView)
         }
         else
@@ -179,6 +248,14 @@ class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NS
             
             })
     }
+    
+    
+    
+    
+    
+    
+    
+    
     
     @IBAction func openSectorPicker(sender : UIButton)
     {
@@ -207,6 +284,7 @@ class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NS
         barItems.addObject(flexSpace)
         
         sectorPickerData = sectorsArray
+       
         sectorPicker.selectRow(1, inComponent: 0, animated: false)
         
         let doneBtn = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: Selector("sectorDoneClicked:"))
@@ -217,7 +295,7 @@ class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NS
         actionView.addSubview(pickerDateToolbar)
         actionView.addSubview(sectorPicker)
         
-        if window {
+        if (window != nil) {
             window!.addSubview(actionView)
         }
         else
@@ -231,6 +309,14 @@ class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NS
             
             })
     }
+    
+    
+    
+    
+    
+    
+    
+    
     
     func cancelPickerSelectionButtonClicked(sender: UIBarButtonItem) {
         
@@ -248,14 +334,23 @@ class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NS
             })
     }
     
+    
+    
+    
+    
+    
+    
+    
+    
     func countryDoneClicked(sender: UIBarButtonItem) {
-        
         
         var myRow = countryPicker.selectedRowInComponent(0)
         countryLabel.text = countryPickerData.objectAtIndex(myRow) as NSString
         
         if countryLabel.text == "" {
             countryLabel.text = "No country"
+            
+
         }
         
         UIView.animateWithDuration(0.2, animations: {
@@ -272,8 +367,17 @@ class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NS
             })
     }
    
+    //Whackky wack wack quack
+    
+    
+    
+    
+    
+    
+    
+    
+    
     func sectorDoneClicked(sender: UIBarButtonItem) {
-        
         
         var myRow = sectorPicker.selectedRowInComponent(0)
         sectorLabel.text = sectorPickerData.objectAtIndex(myRow) as NSString
@@ -296,40 +400,102 @@ class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NS
             })
     }
     
+    
+    
+    //  WHEN ARE THESE METHODS CALLED
+    
+    
     // MARK - Picker delegate
     
+    //sets up the number of rows in the component
+    
+    
     func pickerView(_pickerView: UIPickerView!, numberOfRowsInComponent component: Int) -> Int {
-        
-        var placeholder = 0
-        
-        if(countryPickerData == countriesArray){
-            placeholder=countryPickerData.count
+        var returnNumb: Int = 0
+        if (_pickerView == countryPicker)
+        {
+            returnNumb=countryPickerData.count
         }
-        else{
-            placeholder=sectorPickerData.count
+        else if (_pickerView == sectorPicker){
+            returnNumb=sectorPickerData.count
         }
-        return placeholder
-    }
+        return returnNumb
+}
+    
+
     
     
     
+    //sets up the number of componenets in the picker view
     func numberOfComponentsInPickerView(_pickerView: UIPickerView!) -> Int {
         return 1
     }
     
     
+    
+
+    
+    
+    
+    //sets up the titles for each row in the component
     func PickerView(_pickerView: UIPickerView!, titleForRow row: Int, forComponent component: Int) -> String! {
-        var pl: NSString
-        if(countryPickerData == countriesArray){
+     
+      
+        //need to append to the string
+         var returnStr: NSString = "";
+        
+            if (_pickerView == countryPicker)
+            {
+                returnStr=countryPickerData.objectAtIndex(row) as NSString
+            }
+              else if (_pickerView == sectorPicker){
+            returnStr=sectorPickerData.objectAtIndex(row) as NSString
+            }
+        return ""+returnStr
+    }
+   
+       /* if(countryPickerData == countriesArray){
+          
             pl=countryPickerData.objectAtIndex(row) as NSString
         }
         else{
+           
             pl=sectorPickerData.objectAtIndex(row) as NSString
         }
         return pl
-    }
+    }*/
 
    
+   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /****API connection code
     
     @lazy var data = NSMutableData()
@@ -369,5 +535,5 @@ class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NS
         return boardsDictionary
     }
 }*****/
-
 }
+    
