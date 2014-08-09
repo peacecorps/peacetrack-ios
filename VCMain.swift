@@ -13,7 +13,7 @@ import CoreData
 
 
 
-class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NSURLConnectionDelegate {
+class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NSURLConnectionDelegate{
    
     //configure text boxes
     @IBOutlet var txtFullName: UITextField!
@@ -39,14 +39,12 @@ class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NS
     var actionView: UIView = UIView()
     var window: UIWindow? = nil
     
+    let empty: Bool = true
  
     
    
-    
-    
-    
-    
-    
+
+  
     
     
     
@@ -56,7 +54,9 @@ class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NS
     override func viewDidLoad() {
         super.viewDidLoad()
        
-        var delegate = UIApplication.sharedApplication()
+               var delegate = UIApplication.sharedApplication()
+      
+        
         //We have an array of views here
         var myWindow: UIWindow? = delegate.keyWindow
        
@@ -96,8 +96,7 @@ class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NS
     
   
     
-    
-    
+   
     
     
     
@@ -129,8 +128,7 @@ class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NS
     
     
     //creates a new user object and saves it to the database. also prints out the object for you to see.
-    @IBAction func btnLoginAndSave(){
-        
+    @IBAction func addAccount(){
                 //create a new variable appDel to store app delegate
                 //cast delegate of type UIApplication to our delegate type AppDelegate
                 var appDel:AppDelegate = (UIApplication.sharedApplication().delegate as AppDelegate)
@@ -142,22 +140,53 @@ class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NS
             
                 newUser.setValue(""+txtFullName.text, forKey: "username")
                 newUser.setValue(""+txtVolunteerID.text, forKey: "password")
-                newUser.setValue(""+countryLabel.text, forKey:"post")
-                newUser.setValue(""+sectorLabel.text, forKey:"sector")
+                newUser.setValue(""+countryLabel.text, forKey: "post")
+                newUser.setValue(""+sectorLabel.text, forKey: "sector")
+        
+       
+            
+                if txtFullName.text != "" && txtVolunteerID.text != "" && countryLabel.text != "No country" && sectorLabel.text != "No sector" {
+        
+                   
+                empty==false
                 //save the object
                 context.save(nil)
-                //placeholder to show an error message
-               //print object to the console
-                println(newUser)
-                println("Object Saved")
-                //test case
-                //println("save button pressed \(txtFullName.text)")
         
+                //print object to the console
+                println(newUser)
+        
+                println("Object Saved")
+        
+                self.performSegueWithIdentifier("mySegue", sender: self)
+        
+                }
+        
+        
+                else{
+        
+                var myAlertView = UIAlertView()
+        
+                myAlertView.title = "Hey silly"
+        
+                myAlertView.message = "One or more fields are empty, please fill them"
+        
+                myAlertView.addButtonWithTitle("Okay, fine")
+        
+                myAlertView.show()
+                    
+                }
+        }
+       
+    
+    
+        /***overrides the prepareForSegue method so that I can use it for mySegue to call my segue (from create account screen to home screen) programmatically instead of using storyboard.***/
+        override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+        if segue.identifier == "mySegue"{
+           
+            
             }
-    
-    
-    
-    
+        
+    }
     
     
     
@@ -535,5 +564,5 @@ class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NS
         return boardsDictionary
     }
 }*****/
-}
+    }
     

@@ -14,10 +14,10 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
                             
     var window: UIWindow?
-
+    var dbFilePath: NSString = NSString()
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: NSDictionary?) -> Bool {
-      
+   
         return true
     }
 
@@ -132,5 +132,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return urls[urls.endIndex-1] as NSURL
     }
 
+  
+    
+    
+    
 }
 
