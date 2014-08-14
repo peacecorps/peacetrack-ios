@@ -11,15 +11,19 @@ import CoreData
 
 class TaskManagerViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
+    //set up the managedObjectContext
     let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
-    
+    //and fetchedResultController (which is an instance of NSFetchedResultsController)
     var fetchedResultController: NSFetchedResultsController = NSFetchedResultsController()
 
     override func viewDidLoad() {
+       //call the superclass
         super.viewDidLoad()
-
+       // call getFetchedResultController and change the value of fetchedResultController
         fetchedResultController = getFetchedResultController()
+        //set the delegate to self
         fetchedResultController.delegate = self
+        //perform the fetch
         fetchedResultController.performFetch(nil)
     }
     
@@ -30,19 +34,28 @@ class TaskManagerViewController: UITableViewController, NSFetchedResultsControll
             let taskController:TaskDetailViewController = segue.destinationViewController as TaskDetailViewController
             let task:Tasks = fetchedResultController.objectAtIndexPath(indexPath) as Tasks
             taskController.task = task
+            
+            let task2:Tasks = fetchedResultController.objectAtIndexPath(indexPath) as Tasks
+            taskController.task2 = task2
         }
     }
     
     
     func getFetchedResultController() -> NSFetchedResultsController {
+        //call to taskFetchRequest
         fetchedResultController = NSFetchedResultsController(fetchRequest: taskFetchRequest(), managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         return fetchedResultController
     }
-    
+    //defines the fetch request
     func taskFetchRequest() -> NSFetchRequest {
+      //specify the entity
         let fetchRequest = NSFetchRequest(entityName: "Tasks")
-        let sortDescriptor = NSSortDescriptor(key: "desc", ascending: true)
-        fetchRequest.sortDescriptors = [sortDescriptor]
+        //2 sort descriptors
+        let sortDescriptor = NSSortDescriptor (key: "desc", ascending : false)
+        let sortDescriptor2 = NSSortDescriptor (key: "desc2",ascending : false)
+        //let sortDescriptor = NSSortDescriptor(key: "desc", ascending: true)
+        //add the sort descriptors to the fetch request
+        fetchRequest.sortDescriptors = [sortDescriptor, sortDescriptor2]
         return fetchRequest
     }
 
@@ -65,6 +78,9 @@ class TaskManagerViewController: UITableViewController, NSFetchedResultsControll
         var cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
         let task = fetchedResultController.objectAtIndexPath(indexPath) as Tasks
         cell.textLabel.text = task.desc
+        cell.detailTextLabel.text = task.desc2
+        //let task2 = fetchedResultController.objectAtIndexPath(indexPath) as Tasks
+        //cell.detailTextLabel.text = task2.desc
         return cell
     }
     
