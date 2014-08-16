@@ -9,14 +9,14 @@
 import UIKit
 import CoreData
 
-class TaskDetailViewController: UIViewController {
+class TaskDetailViewController: UIViewController, UITextFieldDelegate {
 
     let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
     
     //outlets for the text fields
     @IBOutlet var txtDesc: UITextField!
-    @IBOutlet var txtDesc2: UITextField!
-    
+    //@IBOutlet var txtDesc2: UITextField!
+    @IBOutlet var txtDesc2: UITextView!
     //instances of Tasks entity
     var task: Tasks? = nil
     var task2: Tasks? = nil
@@ -25,19 +25,39 @@ class TaskDetailViewController: UIViewController {
     override func viewDidLoad() {
        //call the superview
         super.viewDidLoad()
-       
+        txtDesc.delegate = self
+        //txtDesc2.delegate = self
         // if there's something in the task text from the object store
         if task != nil{
            //set the text in the text box to be this text
             txtDesc.text = (task as Tasks!).desc  //added the !
          
                   }
+        else{
+        txtDesc.placeholder = "Name"
+            //set placeholder text
+        }
         // if there's something in the task2 text from the object store
         if task2 != nil{
             //set the text in the second text box to be this text
             txtDesc2.text = (task2 as Tasks!).desc2
         }
+        else{
+        //     txtDesc2.placeholder = "ph2"
+        //set placeholder text
+        }
     }
+    
+    func textFieldShouldReturn(textField: UITextField!) -> Bool {
+        txtDesc.resignFirstResponder()
+        return true
+    }
+    
+    override func touchesBegan(touches: NSSet!, withEvent event: UIEvent!) {
+        self.view.endEditing(true)
+    }
+
+    
     
     //when done (or submmit) button is pressed
     @IBAction func done(sender: AnyObject) {

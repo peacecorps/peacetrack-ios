@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 
-class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NSURLConnectionDelegate{
+class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NSURLConnectionDelegate, UITextFieldDelegate{
     
     //configure text boxes
     @IBOutlet var txtFullName: UITextField!
@@ -45,6 +45,8 @@ class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NS
     //what happens when the root view loads
     override func viewDidLoad() {
         super.viewDidLoad()
+        txtFullName.delegate = self
+        txtVolunteerID.delegate = self
         
         // This is a rogue way not to show the create account screen to the user more than once. Will need to replace with a better way, or simply with a less animated segue(using NSUserDefaults? Swift?)
         
@@ -73,6 +75,17 @@ class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NS
         //Add the contents of filePath2 (sectors.plist) to the NSMutableArray "sectorsArray"
         sectorsArray =  NSMutableArray(contentsOfFile: filePath2)
         
+    }
+    func textFieldShouldReturn(textField: UITextField!) -> Bool {
+        txtFullName.resignFirstResponder()
+        txtVolunteerID.resignFirstResponder()
+        return true
+    }
+    
+     override func touchesBegan(touches: NSSet!, withEvent event: UIEvent!) {
+      //  txtFullName.resignFirstResponder()
+      //  txtVolunteerID.resignFirstResponder()
+        self.view.endEditing(true)
     }
     
     override func didReceiveMemoryWarning() {

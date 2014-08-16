@@ -51,8 +51,8 @@ class TaskManagerViewController: UITableViewController, NSFetchedResultsControll
       //specify the entity
         let fetchRequest = NSFetchRequest(entityName: "Tasks")
         //2 sort descriptors
-        let sortDescriptor = NSSortDescriptor (key: "desc", ascending : false)
-        let sortDescriptor2 = NSSortDescriptor (key: "desc2",ascending : false)
+        let sortDescriptor = NSSortDescriptor (key: "desc", ascending : true)
+        let sortDescriptor2 = NSSortDescriptor (key: "desc2",ascending : true)
         //let sortDescriptor = NSSortDescriptor(key: "desc", ascending: true)
         //add the sort descriptors to the fetch request
         fetchRequest.sortDescriptors = [sortDescriptor, sortDescriptor2]
