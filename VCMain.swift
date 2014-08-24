@@ -71,9 +71,9 @@ class VCMain: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, NS
         var filePath =  NSBundle.mainBundle().pathForResource("Property List", ofType: "plist")
         var filePath2 = NSBundle.mainBundle().pathForResource("sectors", ofType: "plist")
         //Add the contents of filePath (PropertyList.plist) to the NSMutableArray "countriesArray".
-        countriesArray = NSMutableArray(contentsOfFile: filePath)
+        countriesArray = NSMutableArray(contentsOfFile: filePath!) //added ! here to fix beta 6 error
         //Add the contents of filePath2 (sectors.plist) to the NSMutableArray "sectorsArray"
-        sectorsArray =  NSMutableArray(contentsOfFile: filePath2)
+        sectorsArray =  NSMutableArray(contentsOfFile: filePath2!) //added ! here to fix beta 6 error
         
     }
     func textFieldShouldReturn(textField: UITextField!) -> Bool {
